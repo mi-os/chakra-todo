@@ -3,6 +3,33 @@ import axios from "axios";
 
 const todoDataUrl = "http://localhost:3100/todos";
 
+const TodoTitle = ({ title, as }) => {
+  if (as === "h1") return <h1>{title}</h1>;
+  if (as === "h2") return <h2>{title}</h2>;
+
+  return <p>{title}</p>;
+};
+
+const TodoItem = ({ todo }) => {
+  return (
+    <li>
+      {todo.content}
+      <button>{todo.done ? "Go to Incompleted List" : "Go to Completed List"}</button>
+      <button>Delete</button>
+    </li>
+  );
+};
+
+const TodoList = ({ todoList }) => {
+  return (
+    <ul>
+      {todoList.map((todo) => (
+        <TodoItem todo={todo} key={todo.id} />
+      ))}
+    </ul>
+  );
+};
+
 function App() {
   const [todoList, setTodoList] = useState([]);
 
@@ -29,35 +56,15 @@ function App() {
 
   return (
     <>
-      <h1>TODO Progress Management</h1>
+      <TodoTitle title="TODO Progress Management" as="h1" />
       <textarea />
       <button>+ add TODO</button>
 
-      <h2>Incompleted TODO List</h2>
-      <ul>
-        {inCompletedList.map((todo) => (
-          <li key={todo.id}>
-            {todo.content}
-            <button>
-              {todo.done ? "Go to Incompleted List" : "Go to Completed List"}
-            </button>
-            <button>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <TodoTitle title="Incompleted TODO List" as="h2" />
+      <TodoList todoList={inCompletedList} />
 
-      <h2>Completed TODO List</h2>
-      <ul>
-        {completedList.map((todo) => (
-          <li key={todo.id}>
-            {todo.content}
-            <button>
-              {todo.done ? "Go to Incompleted List" : "Go to Completed List"}
-            </button>
-            <button>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <TodoTitle title="Completed List" as="h2" />
+      <TodoList todoList={completedList} />
     </>
   );
 }
