@@ -1,3 +1,5 @@
+import React, { useRef } from "react";
+
 import { useTodo } from "../hooks/useTodo";
 
 const TodoTitle = ({ title, as }) => {
@@ -28,7 +30,19 @@ const TodoList = ({ todoList }) => {
 };
 
 function App() {
-  const { todoList } = useTodo();
+  const {
+    todoList,
+    addTodoListItem,
+   } = useTodo();
+
+  const inputEl = useRef(null);
+
+  const handleAddTodoListItem = () => {
+    if (inputEl.current.value === "") return;
+
+    addTodoListItem(inputEl.current.value);
+    inputEl.current.value = "";
+  };
 
   console.log("TODO List：", todoList);
 
@@ -43,8 +57,8 @@ function App() {
   return (
     <>
       <TodoTitle title="TODO Progress Management" as="h1" />
-      <textarea />
-      <button>+ add TODO</button>
+      <textarea ref={inputEl} />
+      <button onClick={handleAddTodoListItem}>+ add TODO</button>
 
       <TodoTitle title="Incompleted TODO List" as="h2" />
       <TodoList todoList={inCompletedList} />
