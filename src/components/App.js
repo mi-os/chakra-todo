@@ -9,21 +9,31 @@ const TodoTitle = ({ title, as }) => {
   return <p>{title}</p>;
 };
 
-const TodoItem = ({ todo }) => {
+const TodoItem = ({ todo, toggleTodoListItemStatus, deleteTodoListItem }) => {
+  const handleToggleTodoListItemStatus = () => toggleTodoListItemStatus(todo.id, todo.done);
+  const handleDeleteTodoListItem = () => deleteTodoListItem(todo.id);
+
   return (
     <li>
       {todo.content}
-      <button>{todo.done ? "Go to Incompleted List" : "Go to Completed List"}</button>
-      <button>Delete</button>
+      <button onClick={handleToggleTodoListItemStatus}>
+        {todo.done ? "Go to Incompleted List" : "Go to Completed List"}
+      </button>
+      <button onClick={handleDeleteTodoListItem}>Delete</button>
     </li>
   );
 };
 
-const TodoList = ({ todoList }) => {
+const TodoList = ({ todoList, toggleTodoListItemStatus, deleteTodoListItem }) => {
   return (
     <ul>
       {todoList.map((todo) => (
-        <TodoItem todo={todo} key={todo.id} />
+        <TodoItem
+         todo={todo}
+         key={todo.id}
+         toggleTodoListItemStatus={toggleTodoListItemStatus}
+         deleteTodoListItem={deleteTodoListItem}
+         />
       ))}
     </ul>
   );
@@ -42,6 +52,8 @@ function App() {
   const {
     todoList,
     addTodoListItem,
+    toggleTodoListItemStatus,
+    deleteTodoListItem
    } = useTodo();
 
   const inputEl = useRef(null);
@@ -69,10 +81,18 @@ function App() {
       <TodoAdd inputEl={inputEl} handleAddTodoListItem={handleAddTodoListItem} />
 
       <TodoTitle title="Incompleted TODO List" as="h2" />
-      <TodoList todoList={inCompletedList} />
+      <TodoList
+        todoList={inCompletedList}
+        toggleTodoListItemStatus={toggleTodoListItemStatus}
+        deleteTodoListItem={deleteTodoListItem}
+      />
 
       <TodoTitle title="Completed List" as="h2" />
-      <TodoList todoList={completedList} />
+      <TodoList
+       todoList={completedList}
+       toggleTodoListItemStatus={toggleTodoListItemStatus}
+       deleteTodoListItem={deleteTodoListItem}
+      />
     </>
   );
 }
