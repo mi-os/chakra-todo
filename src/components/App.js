@@ -29,6 +29,15 @@ const TodoList = ({ todoList }) => {
   );
 };
 
+const TodoAdd =({ inputEl, handleAddTodoListItem }) => {
+  return (
+    <>
+      <textarea ref={inputEl} />
+      <button onClick={handleAddTodoListItem}>Add TODO</button>
+    </>
+  );
+};
+
 function App() {
   const {
     todoList,
@@ -57,8 +66,7 @@ function App() {
   return (
     <>
       <TodoTitle title="TODO Progress Management" as="h1" />
-      <textarea ref={inputEl} />
-      <button onClick={handleAddTodoListItem}>+ add TODO</button>
+      <TodoAdd inputEl={inputEl} handleAddTodoListItem={handleAddTodoListItem} />
 
       <TodoTitle title="Incompleted TODO List" as="h2" />
       <TodoList todoList={inCompletedList} />
