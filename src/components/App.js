@@ -1,4 +1,7 @@
 import React, { useRef } from "react";
+import { Container } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+
 import { useTodo } from "../hooks/useTodo";
 import { TodoTitle } from './TodoTitle';
 import { TodoAdd } from './TodoAdd';
@@ -16,12 +19,9 @@ function App() {
 
   const handleAddTodoListItem = () => {
     if (inputEl.current.value === "") return;
-
     addTodoListItem(inputEl.current.value);
     inputEl.current.value = "";
   };
-
-  console.log("TODO List：", todoList);
 
   const inCompletedList = todoList.filter((todo) => {
     return !todo.done;
@@ -32,9 +32,15 @@ function App() {
   });
 
   return (
-    <>
-      <TodoTitle title="TODO Progress Management" as="h1" />
+    <Container centerContent p={{ base: "4", md: "6" }} maxWidth="3xl">
+      <TodoTitle
+        title="TODO Progress Management"
+        as="h1"
+        fontSize={{ base: "2xl", md: "3xl" }}
+      />
       <TodoAdd
+        placeholder="Add TODO"
+        leftIcon={<AddIcon />}
         buttonText="Add TODO"
         inputEl={inputEl}
         handleAddTodoListItem={handleAddTodoListItem}
@@ -45,15 +51,17 @@ function App() {
         deleteTodoListItem={deleteTodoListItem}
         title="Incompleted TODO List"
         as="h2"
+        fontSize={{ base: "xl", md: "2xl" }}
       />
       <TodoList
-       todoList={completedList}
-       toggleTodoListItemStatus={toggleTodoListItemStatus}
-       deleteTodoListItem={deleteTodoListItem}
-       title="Completed List"
-       as="h2"
+        todoList={completedList}
+        toggleTodoListItemStatus={toggleTodoListItemStatus}
+        deleteTodoListItem={deleteTodoListItem}
+        title="Completed List"
+        as="h2"
+        fontSize={{ base: "xl", md: "2xl" }}
       />
-    </>
+    </Container>
   );
 }
 
